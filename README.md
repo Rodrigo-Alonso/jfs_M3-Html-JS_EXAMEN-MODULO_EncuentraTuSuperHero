@@ -8,3 +8,5 @@
 - Javascript
 - JQuery
 - API
+- Graficos: CanvasJS
+- CSS

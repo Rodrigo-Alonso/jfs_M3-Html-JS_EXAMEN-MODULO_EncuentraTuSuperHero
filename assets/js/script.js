@@ -7,10 +7,10 @@ $(document).ready(function () {
       success: (result) => {
         let resultado = `
                 <h3 class="text-center">SuperHero Encontrado</h3>
-                <div class="card mb-3" style="max-width: 540px;">
+                <div id="card" class="card mb-3 ml-0" style="max-width: 650px;">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="${result.image.url}" class="img-fluid rounded-start" alt="${result.name}">
+                            <img src="${result.image.url}" class="img-fluid rounded-center" width="500" height="auto" alt="${result.name}">
                         </div>
                         <div class="col-md-8 text-start">
                             <div class="card-body">
@@ -33,7 +33,7 @@ $(document).ready(function () {
         $("#resultado").append(resultado);
 
         //Inyeccion de graficos
-        
+
         let dataPoints = [];
 
         //Recorre objeto y extrae su nombre y valor(segun datos de api)
@@ -44,27 +44,28 @@ $(document).ready(function () {
           });
         }
 
-        //Codugo de 
+        //Codugo de
         var chart = new CanvasJS.Chart("chartContainer", {
-            theme: "light2", // "light1", "light2", "dark1", "dark2"
-            exportEnabled: true,
-            animationEnabled: true,
-            title: {
-                text: `${result.name}`
+          theme: "light2", // "light1", "light2", "dark1", "dark2"
+          exportEnabled: true,
+          animationEnabled: true,
+          title: {
+            text: `${result.name}`,
+          },
+          data: [
+            {
+              type: "pie",
+              startAngle: 25,
+              toolTipContent: "<b>{label}</b>: {y}%",
+              showInLegend: "true",
+              legendText: "{label}",
+              indexLabelFontSize: 16,
+              indexLabel: "{label} - {y}%",
+              dataPoints: dataPoints,
             },
-            data: [{
-                type: "pie",
-                startAngle: 25,
-                toolTipContent: "<b>{label}</b>: {y}%",
-                showInLegend: "true",
-                legendText: "{label}",
-                indexLabelFontSize: 16,
-                indexLabel: "{label} - {y}%",
-                dataPoints: dataPoints,
-            }]
+          ],
         });
         chart.render();
-
       },
       error: (error) => {
         alert("Ha ocurrido un error en la consulta");
