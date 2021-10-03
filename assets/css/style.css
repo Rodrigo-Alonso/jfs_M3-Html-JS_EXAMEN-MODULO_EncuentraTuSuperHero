@@ -2,8 +2,9 @@ body *{
     margin: 0;
     border: 0;
     padding: 0;
+    font-family: 'Open Sans', sans-serif;
 }
 
-#card div{
-    margin: 0px;
+.card-body {
+    font-size: 12px;
 }

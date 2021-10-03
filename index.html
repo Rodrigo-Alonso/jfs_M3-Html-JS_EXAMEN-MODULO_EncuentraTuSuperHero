@@ -24,6 +24,12 @@
     <!--ajax-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+    <!--Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,500;1,300&display=swap"
+        rel="stylesheet">
+
 
     <title>Super Hero</title>
 </head>
@@ -49,19 +55,20 @@
 
     <!--BODY-->
     <section class="container">
-        <h2>Encuentra tu super Hero</h2>
-        <form action="">
+        <h1 id="title">Encuentra tu SuperHero</h1>
+        <form action="" id="form">
             <div class="form-group">
-                <label for="idHero">Ingresa el número del SuperHero a buscar</label>
-                <input type="text" class="form-control mt-1" name="" id="idHero" aria-describedby="helpId"
+                <label id="text" class="mb-1" for="idHero">Ingresa el número del SuperHero a buscar</label>
+                <input type="text" class="idHero form-control mt-1" name="" id="idHero" aria-describedby="helpId"
                     placeholder="200" />
+                <span class="errorId" style="color:red;"></span>
             </div>
             <button type="submit" class="btn btn-primary mt-3">Buscar</button>
         </form>
     </section>
 
     <!--GRAFICOS-->
-    <section class="container text-center">
+    <section class="container text-center mt-3">
         <div class="row">
             <div id="resultado" class="col-sm mt-3"></div>
             <div id="chartContainer" class="col-sm" style="height: 370px; width: 100%"></div>

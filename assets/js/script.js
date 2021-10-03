@@ -6,14 +6,14 @@ $(document).ready(function () {
       url: `https://www.superheroapi.com/api.php/10216218593416642/${id}`,
       success: (result) => {
         let resultado = `
-                <h3 class="text-center">SuperHero Encontrado</h3>
-                <div id="card" class="card mb-3 ml-0" style="max-width: 650px;">
+                <h4 class="text-center">SuperHero Encontrado</h4>
+                <div id="card" class="card mb-3 ml-0" style="max-width: auto;">
                     <div class="row g-0">
                         <div class="col-md-4">
                             <img src="${result.image.url}" class="img-fluid rounded-center" width="500" height="auto" alt="${result.name}">
                         </div>
                         <div class="col-md-8 text-start">
-                            <div class="card-body">
+                            <div class="card-body p-2">
                                 <h5 class="card-title">Nombre: ${result.name}</h5>
                                 <p class="card-text">${result.connections["group-affiliation"]}</p>
                                 <ul class="list-group list-group-flush">
@@ -38,29 +38,37 @@ $(document).ready(function () {
 
         //Recorre objeto y extrae su nombre y valor(segun datos de api)
         for (const key in result.powerstats) {
-          dataPoints.push({
-            label: key,
-            y: parseInt(result.powerstats[key]),
-          });
+          //
+          if (result.powerstats[key] === "null") {
+            dataPoints.push({
+              label: key,
+              y: 0,
+            });
+          }else{
+            dataPoints.push({
+              label: key,
+              y: parseInt(result.powerstats[key]),
+            }); 
+          }
         }
 
-        //Codugo de
+        //Codugo de Grafico
         var chart = new CanvasJS.Chart("chartContainer", {
-          theme: "light2", // "light1", "light2", "dark1", "dark2"
-          exportEnabled: true,
+          theme: "light1", // "light1", "light2", "dark1", "dark2"
+          exportEnabled: false,
           animationEnabled: true,
           title: {
-            text: `${result.name}`,
+            text: `Estadisticas de Poder para ${result.name}`,
           },
           data: [
             {
               type: "pie",
               startAngle: 25,
-              toolTipContent: "<b>{label}</b>: {y}%",
+              toolTipContent: "<b>{label}</b>: {y}",
               showInLegend: "true",
               legendText: "{label}",
               indexLabelFontSize: 16,
-              indexLabel: "{label} - {y}%",
+              indexLabel: "{label} ({y})",
               dataPoints: dataPoints,
             },
           ],
@@ -83,6 +91,35 @@ $(document).ready(function () {
 
     //Capturando el valor del input
     id = parseInt($("#idHero").val());
-    consulta(id);
+
+    limpiarErrores();
+
+    if (validar(id)) {
+      consulta(id);
+    };
+
+    function limpiarErrores(){
+      document.querySelector(".errorId").innerHTML = "";
+    }
+    
+    function validar(idHero) {
+      let validar = true;
+    
+      let validacionNumero = /[0-9]/gim;
+      if (!validacionNumero.test(idHero)) {
+        document.querySelector(".errorId").innerHTML = "Ingrese un id valido (solo numeros)"
+        validar = false;
+      }
+    
+      if (idHero < 1 || idHero > 732 ) {
+        document.querySelector(".errorId").innerHTML = "Ingrese un id valido entre 1 y 732"
+        validar = false;
+      }
+    
+      return validar;
+    }
   });
 });
+
+
+
